@@ -1,0 +1,443 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dental Concierge AI - Your Virtual Front Desk Partner</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', -apple-system, BlinkMacSystemFont, Roboto, sans-serif; }
+    body { background-color: #f8fafc; color: #1e293b; line-height: 1.6; }
+
+    /* Header */
+    header { background: #ffffff; border-bottom: 1px solid #e2e8f0; padding: 18px 5%; display: flex; justify-content: space-between; align-items: center; position: sticky; top: 0; z-index: 100; }
+    .brand { font-size: 20px; font-weight: 700; color: #0f172a; display: flex; align-items: center; gap: 10px; }
+    .brand-tag { background: #e0f2fe; color: #0369a1; font-size: 11px; padding: 3px 8px; border-radius: 6px; font-weight: 600; }
+    .contact-link { text-decoration: none; color: #0d9488; font-weight: 600; font-size: 15px; cursor: pointer; transition: color 0.2s; }
+    .contact-link:hover { color: #0f766e; }
+
+    /* Hero Section */
+    .hero { max-width: 1100px; margin: 40px auto; padding: 0 20px; display: grid; grid-template-columns: 1fr 1fr; gap: 40px; align-items: center; }
+    .hero-text h1 { font-size: 36px; color: #0f172a; line-height: 1.25; margin-bottom: 16px; font-weight: 800; }
+    .hero-text p { font-size: 16px; color: #475569; margin-bottom: 24px; }
+    
+    .instruction-box { background: #f1f5f9; padding: 16px; border-radius: 12px; border-left: 4px solid #0d9488; margin-bottom: 20px; }
+    .instruction-box p { font-size: 13px; color: #334155; margin: 0; }
+
+    .trust-badges { display: flex; flex-wrap: wrap; gap: 16px; margin-top: 20px; font-size: 13px; color: #64748b; }
+    .trust-badge-item { display: flex; align-items: center; gap: 6px; }
+    .trust-badge-item::before { content: "✓"; color: #0d9488; font-weight: bold; }
+
+    /* Demo Widget */
+    .chat-card { background: #ffffff; border-radius: 20px; box-shadow: 0 15px 35px rgba(15, 23, 42, 0.08); display: flex; flex-direction: column; height: 560px; overflow: hidden; border: 1px solid #e2e8f0; }
+    .chat-header { background: #0f172a; color: white; padding: 16px 20px; display: flex; align-items: center; gap: 12px; }
+    .avatar { width: 40px; height: 40px; border-radius: 50%; background: #0d9488; color: white; display: flex; align-items: center; justify-content: center; font-weight: 700; position: relative; }
+    .status-dot { width: 10px; height: 10px; background: #22c55e; border-radius: 50%; border: 2px solid #0f172a; position: absolute; bottom: 0; right: 0; }
+    .header-info h3 { font-size: 15px; font-weight: 600; }
+    .header-info p { font-size: 12px; color: #94a3b8; }
+    
+    .chat-box { flex: 1; padding: 18px; overflow-y: auto; display: flex; flex-direction: column; gap: 12px; background: #f8fafc; }
+    .message { max-width: 85%; padding: 12px 15px; border-radius: 14px; font-size: 14px; line-height: 1.4; word-wrap: break-word; }
+    .user-message { align-self: flex-end; background: #0d9488; color: white; border-bottom-right-radius: 2px; }
+    .bot-message { align-self: flex-start; background: #ffffff; color: #334155; border-bottom-left-radius: 2px; border: 1px solid #e2e8f0; }
+    
+    /* Quick Replies / Chips */
+    .chips-container { padding: 8px 16px; background: #ffffff; display: flex; gap: 8px; overflow-x: auto; border-top: 1px solid #f1f5f9; }
+    .chip { background: #f1f5f9; color: #0d9488; border: 1px solid #cbd5e1; border-radius: 16px; padding: 6px 12px; font-size: 12px; font-weight: 600; white-space: nowrap; cursor: pointer; transition: all 0.2s; }
+    .chip:hover { background: #0d9488; color: white; border-color: #0d9488; }
+
+    /* Typing Indicator Animation */
+    .typing-indicator { display: none; align-self: flex-start; background: #ffffff; border: 1px solid #e2e8f0; padding: 12px 16px; border-radius: 14px; border-bottom-left-radius: 2px; }
+    .typing-indicator span { height: 8px; width: 8px; float: left; margin: 0 1px; background-color: #94a3b8; border-radius: 50%; opacity: 0.4; }
+    .typing-indicator span:nth-of-type(1) { animation: 1s blink infinite 0.3333s; }
+    .typing-indicator span:nth-of-type(2) { animation: 1s blink infinite 0.6666s; }
+    .typing-indicator span:nth-of-type(3) { animation: 1s blink infinite 0.9999s; }
+    @keyframes blink { 50% { opacity: 1; } }
+
+    .input-area { padding: 12px 16px; background: #ffffff; border-top: 1px solid #f1f5f9; display: flex; gap: 8px; }
+    .input-area input { flex: 1; padding: 10px 14px; background: #f1f5f9; border: 1px solid transparent; border-radius: 20px; outline: none; font-size: 14px; transition: border 0.2s; }
+    .input-area input:focus { border-color: #0d9488; background: #fff; }
+    .send-btn { background: #0d9488; color: white; border: none; width: 38px; height: 38px; border-radius: 50%; cursor: pointer; display: flex; align-items: center; justify-content: center; font-size: 16px; transition: background 0.2s; }
+    .send-btn:hover { background: #0f766e; }
+
+    /* How it works */
+    .how-it-works { background: #ffffff; padding: 60px 20px; border-top: 1px solid #e2e8f0; border-bottom: 1px solid #e2e8f0; }
+    .container { max-width: 1000px; margin: 0 auto; text-align: center; }
+    .section-title { font-size: 28px; font-weight: 700; color: #0f172a; margin-bottom: 12px; }
+    .section-subtitle { font-size: 16px; color: #64748b; margin-bottom: 40px; }
+
+    .steps-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 30px; text-align: left; }
+    .step-card { background: #f8fafc; padding: 24px; border-radius: 16px; border: 1px solid #e2e8f0; }
+    .step-number { width: 36px; height: 36px; background: #0d9488; color: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 700; margin-bottom: 16px; }
+    .step-card h3 { font-size: 18px; color: #0f172a; margin-bottom: 8px; font-weight: 600; }
+    .step-card p { font-size: 14px; color: #475569; }
+
+    /* Comparison Section */
+    .comparison-section { max-width: 1000px; margin: 60px auto; padding: 0 20px; text-align: center; }
+    .table-wrapper { background: white; border-radius: 20px; border: 1px solid #e2e8f0; overflow-x: auto; box-shadow: 0 10px 25px rgba(0,0,0,0.03); margin-top: 30px; }
+    table { width: 100%; border-collapse: collapse; text-align: left; font-size: 14px; min-width: 600px; }
+    th { padding: 18px 20px; font-size: 15px; }
+    td { padding: 16px 20px; }
+
+    /* FAQ Section */
+    .faq-section { max-width: 800px; margin: 60px auto; padding: 0 20px; }
+    .faq-item { background: white; border: 1px solid #e2e8f0; border-radius: 12px; margin-bottom: 12px; overflow: hidden; }
+    .faq-question { padding: 18px 20px; font-weight: 600; color: #0f172a; cursor: pointer; display: flex; justify-content: space-between; align-items: center; }
+    .faq-answer { padding: 0 20px 18px 20px; color: #475569; font-size: 14px; display: none; border-top: 1px solid #f1f5f9; padding-top: 12px; }
+
+    /* Compliance Banner */
+    .compliance-box { background: #f0fdf4; border: 1px solid #bbf7d0; border-radius: 16px; max-width: 800px; margin: 40px auto; padding: 20px; display: flex; align-items: center; gap: 16px; color: #166534; }
+    .compliance-icon { font-size: 28px; }
+    .compliance-text h4 { font-size: 16px; margin-bottom: 2px; }
+    .compliance-text p { font-size: 13px; color: #15803d; }
+
+    /* Offer Box */
+    .offer-box { background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%); color: white; max-width: 800px; margin: 60px auto; padding: 40px; border-radius: 24px; text-align: center; }
+    .offer-box h2 { font-size: 28px; margin-bottom: 12px; }
+    .offer-box p { color: #cbd5e1; font-size: 16px; margin-bottom: 24px; }
+    .cta-button { background: #0d9488; color: white; border: none; padding: 14px 32px; border-radius: 30px; font-weight: 700; font-size: 16px; cursor: pointer; text-decoration: none; display: inline-block; transition: transform 0.2s, background 0.2s; }
+    .cta-button:hover { background: #0f766e; transform: translateY(-2px); }
+
+    /* MODAL POPUP STYLES */
+    .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(15, 23, 42, 0.6); backdrop-filter: blur(4px); display: none; justify-content: center; align-items: center; z-index: 1000; padding: 20px; }
+    .modal-card { background: white; width: 100%; max-width: 480px; border-radius: 24px; padding: 32px; box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25); position: relative; }
+    .close-modal { position: absolute; top: 20px; right: 20px; background: #f1f5f9; border: none; width: 32px; height: 32px; border-radius: 50%; cursor: pointer; font-weight: bold; color: #64748b; }
+    
+    .modal-header h3 { font-size: 22px; color: #0f172a; margin-bottom: 8px; font-weight: 700; }
+    .modal-header p { font-size: 14px; color: #64748b; margin-bottom: 24px; }
+    
+    .form-group { margin-bottom: 16px; text-align: left; }
+    .form-group label { display: block; font-size: 13px; font-weight: 600; color: #334155; margin-bottom: 6px; }
+    .form-group input { width: 100%; padding: 12px 16px; border: 1px solid #cbd5e1; border-radius: 12px; font-size: 14px; outline: none; transition: border-color 0.2s; }
+    .form-group input:focus { border-color: #0d9488; }
+    
+    .submit-btn { width: 100%; background: #0d9488; color: white; border: none; padding: 14px; border-radius: 12px; font-weight: 700; font-size: 15px; cursor: pointer; margin-top: 8px; transition: background 0.2s; }
+    .submit-btn:hover { background: #0f766e; }
+
+    footer { text-align: center; padding: 30px; color: #94a3b8; font-size: 13px; }
+
+    @media (max-width: 768px) {
+      .hero { grid-template-columns: 1fr; }
+      table { font-size: 12px; }
+      th, td { padding: 10px; }
+      .compliance-box { flex-direction: column; text-align: center; }
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <div class="brand">DentalConcierge <span class="brand-tag">AI Partner</span></div>
+    <a onclick="openModal()" class="contact-link">Get Free Setup →</a>
+  </header>
+
+  <!-- Hero Section -->
+  <section class="hero" id="demo">
+    <div class="hero-text">
+      <h1>An Extra Front Desk Assistant for Your Dental Practice</h1>
+      <p>Sarah greets prospective patients 24/7, answers questions about procedures, and helps them book appointments directly into Google Calendar when your office is closed or busy.</p>
+      
+      <div class="instruction-box">
+        <p>
+          <strong>👉 Try it yourself:</strong> Tap one of the quick suggestions below the chat or ask Sarah about Invisalign, pricing, or available appointments.
+        </p>
+      </div>
+
+      <div class="trust-badges">
+        <div class="trust-badge-item">No technical skills needed</div>
+        <div class="trust-badge-item">Google Calendar Sync</div>
+        <div class="trust-badge-item">HIPAA Compliant</div>
+        <div class="trust-badge-item">7-day risk-free trial</div>
+      </div>
+    </div>
+
+    <!-- Live Chat Widget -->
+    <div class="chat-card">
+      <div class="chat-header">
+        <div class="avatar">
+          S
+          <div class="status-dot"></div>
+        </div>
+        <div class="header-info">
+          <h3>Sarah • Practice Receptionist</h3>
+          <p>• Online | Patient Care Specialist</p>
+        </div>
+      </div>
+
+      <div class="chat-box" id="chatBox">
+        <div class="message bot-message">
+          Hello! Welcome to our clinic. How can I help you today with your dental care or booking a consultation?
+        </div>
+        <div class="typing-indicator" id="typingIndicator">
+          <span></span><span></span><span></span>
+        </div>
+      </div>
+
+      <!-- Quick Reply Chips -->
+      <div class="chips-container">
+        <div class="chip" onclick="sendQuickMessage('How much is Invisalign?')">💰 Invisalign Pricing?</div>
+        <div class="chip" onclick="sendQuickMessage('What are your opening hours?')">🕒 Opening Hours</div>
+        <div class="chip" onclick="sendQuickMessage('I want to book an appointment for tomorrow')">📅 Book Consultation</div>
+      </div>
+
+      <div class="input-area">
+        <input type="text" id="userInput" placeholder="Ask about pricing or booking..." onkeypress="handleKeyPress(event)">
+        <button class="send-btn" onclick="sendMessage()">➔</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- How it works -->
+  <section class="how-it-works">
+    <div class="container">
+      <h2 class="section-title">How Sarah Helps Your Practice Daily</h2>
+      <p class="section-subtitle">Designed to support your front desk team, not replace them.</p>
+
+      <div class="steps-grid">
+        <div class="step-card">
+          <div class="step-number">1</div>
+          <h3>A Patient Visits Your Site</h3>
+          <p>Whether it's 9:00 PM or during lunch break, Sarah welcomes visitors instantly on your website or WhatsApp.</p>
+        </div>
+
+        <div class="step-card">
+          <div class="step-number">2</div>
+          <h3>Answers Specific FAQs</h3>
+          <p>Sarah is trained specifically with <em>your</em> practice's prices, accepted insurance plans, and procedures.</p>
+        </div>
+
+        <div class="step-card">
+          <div class="step-number">3</div>
+          <h3>Syncs Calendar & Alerts Team</h3>
+          <p>Sarah checks real-time availability in Google Calendar, reserves the spot, and sends instant alerts to your reception.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- TABLA COMPARATIVA -->
+  <section class="comparison-section">
+    <h2 class="section-title">Why Practices Choose Us Over Traditional Software</h2>
+    <p class="section-subtitle">We don't sell generic chatbots. We build dedicated AI concierges custom-trained for your practice.</p>
+
+    <div class="table-wrapper">
+      <table>
+        <thead>
+          <tr style="background: #0f172a; color: white;">
+            <th>Key Capability</th>
+            <th style="color: #94a3b8;">Traditional Software / Agencies</th>
+            <th style="background: #0d9488; color: white;">DentalConcierge AI ★</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr style="border-bottom: 1px solid #f1f5f9;">
+            <td style="font-weight: 600;">Response Speed</td>
+            <td style="color: #64748b;">Slow (5 to 15 seconds)</td>
+            <td style="font-weight: 700; color: #0d9488;">⚡ Instant (&lt; 2 seconds)</td>
+          </tr>
+          <tr style="border-bottom: 1px solid #f1f5f9; background: #f8fafc;">
+            <td style="font-weight: 600;">Setup & Onboarding</td>
+            <td style="color: #64748b;">1 to 2 weeks of calls</td>
+            <td style="font-weight: 700; color: #0d9488;">🚀 Ready in Under 24 Hours</td>
+          </tr>
+          <tr style="border-bottom: 1px solid #f1f5f9;">
+            <td style="font-weight: 600;">Calendar Integration</td>
+            <td style="color: #64748b;">Manual export or complex API</td>
+            <td style="font-weight: 700; color: #0d9488;">📅 Direct Sync with Google Calendar</td>
+          </tr>
+          <tr style="border-bottom: 1px solid #f1f5f9; background: #f8fafc;">
+            <td style="font-weight: 600;">Risk & Guarantee</td>
+            <td style="color: #64748b;">Upfront contracts & setup fees</td>
+            <td style="font-weight: 700; color: #0d9488;">🛡️ 7-Day Free Trial ($0 Risk)</td>
+          </tr>
+          <tr style="border-bottom: 1px solid #f1f5f9;">
+            <td style="font-weight: 600;">Practice Accuracy</td>
+            <td style="color: #64748b;">Generic pre-set robot templates</td>
+            <td style="font-weight: 700; color: #0d9488;">🎯 Trained on your exact fees & doctors</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- Compliance Banner -->
+  <div class="compliance-box">
+    <div class="compliance-icon">🔒</div>
+    <div class="compliance-text">
+      <h4>Privacy & Patient Security First</h4>
+      <p>Our infrastructure complies with HIPAA standards and data encryption protocols to safeguard patient information and practice records.</p>
+    </div>
+  </div>
+
+  <!-- FAQ Section -->
+  <section class="faq-section">
+    <h2 class="section-title" style="text-align: center; margin-bottom: 30px;">Frequently Asked Questions</h2>
+    
+    <div class="faq-item">
+      <div class="faq-question" onclick="toggleFaq(this)">
+        How does Sarah integrate with our Google Calendar? <span>+</span>
+      </div>
+      <div class="faq-answer">
+        We connect Sarah via secure API integration (Make.com). When a patient requests an appointment slot, Sarah checks live calendar availability and places a temporary hold or confirmed entry instantly.
+      </div>
+    </div>
+
+    <div class="faq-item">
+      <div class="faq-question" onclick="toggleFaq(this)">
+        What happens if Sarah receives a complex clinical question? <span>+</span>
+      </div>
+      <div class="faq-answer">
+        Sarah is trained with strict guardrails. If a patient asks an unhandled clinical question or requests human intervention, Sarah politely collects their details and instantly notifies your reception team via email/WhatsApp.
+      </div>
+    </div>
+
+    <div class="faq-item">
+      <div class="faq-question" onclick="toggleFaq(this)">
+        Does it require technical installation on our website? <span>+</span>
+      </div>
+      <div class="faq-answer">
+        Not at all. We provide a single line of code that you (or your Webmaster) can paste onto your site. We handle 100% of the AI training and configuration.
+      </div>
+    </div>
+  </section>
+
+  <!-- Offer Box -->
+  <div class="offer-box">
+    <h2>Test Sarah in Your Practice for 7 Days</h2>
+    <p>We will set up Sarah with your practice's exact details and Google Calendar integration. If you don't capture new patient inquiries in your first week, you owe us nothing.</p>
+    <button class="cta-button" onclick="openModal()">Request Your 7-Day Free Setup</button>
+  </div>
+
+  <!-- MODAL FORM POPUP -->
+  <div class="modal-overlay" id="setupModal">
+    <div class="modal-card">
+      <button class="close-modal" onclick="closeModal()">✕</button>
+      <div class="modal-header">
+        <h3>Start Your 7-Day Free Trial</h3>
+        <p>Fill out these details to configure Sarah for your clinic. No credit card required.</p>
+      </div>
+
+      <form action="https://api.web3forms.com/submit" method="POST" id="leadForm">
+        <input type="hidden" name="access_key" value="2ef85fd6-ce99-46e9-a1bb-6cdbf3052177">
+        <input type="hidden" name="subject" value="New Dental Lead for 7-Day Trial!">
+        <input type="hidden" name="from_name" value="Dental Concierge AI">
+
+        <div class="form-group">
+          <label for="doctorName">Doctor or Contact Name</label>
+          <input type="text" id="doctorName" name="Doctor_Name" placeholder="Dr. John Smith" required>
+        </div>
+
+        <div class="form-group">
+          <label for="practiceWebsite">Practice Website URL</label>
+          <input type="url" id="practiceWebsite" name="Practice_Website" placeholder="https://www.smithdental.com" required>
+        </div>
+
+        <div class="form-group">
+          <label for="phone">WhatsApp / Phone Number</label>
+          <input type="tel" id="phone" name="Contact_Phone" placeholder="+1 (555) 000-0000" required>
+        </div>
+
+        <div class="form-group">
+          <label for="email">Work Email</label>
+          <input type="email" id="email" name="Contact_Email" placeholder="drsmith@smithdental.com" required>
+        </div>
+
+        <button type="submit" class="submit-btn">Activate Sarah for My Clinic 🚀</button>
+      </form>
+    </div>
+  </div>
+
+  <footer>
+    &copy; 2026 Dental Concierge Systems • Built for Modern Dental Practices
+  </footer>
+
+  <script>
+    const webhookUrl = 'https://hook.us2.make.com/q9cordqhxb7z2swqq7u3a8kbpe80ecvu';
+
+    async function sendMessage() {
+      const input = document.getElementById('userInput');
+      const messageText = input.value.trim();
+      if (!messageText) return;
+
+      appendMessage(messageText, 'user-message');
+      input.value = '';
+
+      showTypingIndicator();
+
+      try {
+        const response = await fetch(`${webhookUrl}?message=${encodeURIComponent(messageText)}`);
+        const replyText = await response.text();
+
+        hideTypingIndicator();
+        appendMessage(replyText, 'bot-message');
+      } catch (error) {
+        hideTypingIndicator();
+        appendMessage('Sorry, there was an issue connecting to the assistant.', 'bot-message');
+      }
+    }
+
+    function sendQuickMessage(text) {
+      document.getElementById('userInput').value = text;
+      sendMessage();
+    }
+
+    function appendMessage(text, className) {
+      const chatBox = document.getElementById('chatBox');
+      const indicator = document.getElementById('typingIndicator');
+      
+      const messageElement = document.createElement('div');
+      messageElement.className = `message ${className}`;
+      messageElement.innerText = text;
+
+      // Insert before typing indicator so indicator stays at bottom
+      chatBox.insertBefore(messageElement, indicator);
+      chatBox.scrollTop = chatBox.scrollHeight;
+    }
+
+    function showTypingIndicator() {
+      const indicator = document.getElementById('typingIndicator');
+      indicator.style.display = 'block';
+      const chatBox = document.getElementById('chatBox');
+      chatBox.scrollTop = chatBox.scrollHeight;
+    }
+
+    function hideTypingIndicator() {
+      const indicator = document.getElementById('typingIndicator');
+      indicator.style.display = 'none';
+    }
+
+    function handleKeyPress(event) {
+      if (event.key === 'Enter') sendMessage();
+    }
+
+    /* FAQ Toggle */
+    function toggleFaq(element) {
+      const answer = element.nextElementSibling;
+      const span = element.querySelector('span');
+      if (answer.style.display === 'block') {
+        answer.style.display = 'none';
+        span.innerText = '+';
+      } else {
+        answer.style.display = 'block';
+        span.innerText = '−';
+      }
+    }
+
+    /* Functions for Modal Popup */
+    function openModal() {
+      document.getElementById('setupModal').style.display = 'flex';
+    }
+
+    function closeModal() {
+      document.getElementById('setupModal').style.display = 'none';
+    }
+
+    window.onclick = function(event) {
+      const modal = document.getElementById('setupModal');
+      if (event.target == modal) {
+        closeModal();
+      }
+    }
+  </script>
+
+</body>
+</html>
