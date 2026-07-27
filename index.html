@@ -545,12 +545,14 @@
           })
         });
 
-        // Evento de Conversión en Meta
+        // Evento de Conversión en Meta Pixel
         if (typeof fbq !== 'undefined') {
           fbq('track', 'Lead');
         }
 
-        alert('Thank you! Your trial request has been received. Please check your email for the next steps.');
+        // Alerta amigable avisando revisar la carpeta de SPAM / Promociones
+        alert(`Thank you Dr. ${doctorName}! Your setup request has been received. 🚀\n\nWe sent your next steps to: ${email}.\n\n👉 Please check your Inbox (and your Spam or Promotions folder just in case) to complete your 2-minute setup form!`);
+
         closeModal();
         document.getElementById('leadForm').reset();
       } catch (error) {
