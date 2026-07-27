@@ -73,7 +73,7 @@
     @keyframes blink { 50% { opacity: 1; } }
 
     .input-area { padding: 12px 16px; background: #ffffff; border-top: 1px solid #f1f5f9; display: flex; gap: 8px; }
-    .input-area input { flex: 1; padding: 10px 14px; background: #f1f5f9; border: 1px solid transparent; border-radius: 20px; outline: none; font-size: 14px; transition: border 0.2s; }
+    .input-area input { flex: 1; padding: 10px 14px; background: #f1f5f9; border: 1px solid transparent; border-radius: 20px; outline: none; font-size: 14px; transition: border 0.2s, background-color 0.2s; }
     .input-area input:focus { border-color: #0d9488; background: #fff; }
     .send-btn { background: #0d9488; color: white; border: none; width: 38px; height: 38px; border-radius: 50%; cursor: pointer; display: flex; align-items: center; justify-content: center; font-size: 16px; transition: background 0.2s; }
     .send-btn:hover { background: #0f766e; }
@@ -126,7 +126,7 @@
     
     .form-group { margin-bottom: 16px; text-align: left; }
     .form-group label { display: block; font-size: 13px; font-weight: 600; color: #334155; margin-bottom: 6px; }
-    .form-group input { width: 100%; padding: 12px 16px; border: 1px solid #cbd5e1; border-radius: 12px; font-size: 14px; outline: none; transition: border-color 0.2s; }
+    .form-group input { width: 100%; padding: 12px 16px; border: 1px solid #cbd5e1; border-radius: 12px; font-size: 14px; outline: none; transition: border-color 0.2s, background-color 0.2s; }
     .form-group input:focus { border-color: #0d9488; }
     
     .submit-btn { width: 100%; background: #0d9488; color: white; border: none; padding: 14px; border-radius: 12px; font-weight: 700; font-size: 15px; cursor: pointer; margin-top: 8px; transition: background 0.2s; }
@@ -418,7 +418,6 @@
       messageElement.className = `message ${className}`;
       messageElement.innerText = text;
 
-      // Insert before typing indicator so indicator stays at bottom
       chatBox.insertBefore(messageElement, indicator);
       chatBox.scrollTop = chatBox.scrollHeight;
     }
@@ -468,37 +467,72 @@
       }
     }
 
-    /* Validaciones estrictas del formulario y evento de Meta */
+    /* ----------------------------------------------------
+       VALIDACIONES VISUALES EN TIEMPO REAL (Borde Rojo)
+    ---------------------------------------------------- */
+    const emailInput = document.getElementById('email');
+    const phoneInput = document.getElementById('phone');
+    const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+
+    function applyValidationStyle(inputElement, isValid) {
+      if (isValid) {
+        inputElement.style.borderColor = '#22c55e'; // Verde tenue si es correcto
+        inputElement.style.backgroundColor = '#f0fdf4';
+      } else {
+        inputElement.style.borderColor = '#ef4444'; // Rojo si es incorrecto
+        inputElement.style.backgroundColor = '#fef2f2';
+      }
+    }
+
+    // Validar Email al salir de la casilla (blur)
+    emailInput.addEventListener('blur', function() {
+      const val = this.value.trim();
+      if (val.length > 0) {
+        applyValidationStyle(this, emailRegex.test(val));
+      } else {
+        this.style.borderColor = '#cbd5e1';
+        this.style.backgroundColor = '#ffffff';
+      }
+    });
+
+    // Validar Teléfono al salir de la casilla (blur)
+    phoneInput.addEventListener('blur', function() {
+      const phoneDigits = this.value.trim().replace(/\D/g, '');
+      if (this.value.trim().length > 0) {
+        applyValidationStyle(this, phoneDigits.length >= 10);
+      } else {
+        this.style.borderColor = '#cbd5e1';
+        this.style.backgroundColor = '#ffffff';
+      }
+    });
+
+    // Validar al enviar el formulario completo
     document.getElementById('leadForm').addEventListener('submit', function(e) {
-      const phoneInput = document.getElementById('phone').value.trim();
-      const emailInput = document.getElementById('email').value.trim();
+      const isEmailValid = emailRegex.test(emailInput.value.trim());
+      const phoneDigits = phoneInput.value.trim().replace(/\D/g, '');
+      const isPhoneValid = phoneDigits.length >= 10;
 
-      // Expresión regular para verificar email válido
-      const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
-      
-      // Contar solo los dígitos del número telefónico
-      const phoneDigits = phoneInput.replace(/\D/g, '');
-
-      // 1. Validar Email
-      if (!emailRegex.test(emailInput)) {
+      if (!isEmailValid) {
         e.preventDefault();
+        applyValidationStyle(emailInput, false);
         alert('Please enter a valid work email address (e.g., doctor@clinic.com).');
+        emailInput.focus();
         return false;
       }
 
-      // 2. Validar Teléfono (Mínimo 10 dígitos para EE. UU./Internacional)
-      if (phoneDigits.length < 10) {
+      if (!isPhoneValid) {
         e.preventDefault();
+        applyValidationStyle(phoneInput, false);
         alert('Please enter a valid phone or WhatsApp number with at least 10 digits.');
+        phoneInput.focus();
         return false;
       }
 
-      // Si todo está correcto, rastrear la conversión de Lead en Meta Pixel
+      // Registrar Lead en Meta Pixel si pasa las validaciones
       if (typeof fbq !== 'undefined') {
         fbq('track', 'Lead');
       }
     });
-    
   </script>
 
 </body>
