@@ -339,11 +339,7 @@
         <p>Fill out these details to configure Sarah for your clinic. No credit card required.</p>
       </div>
 
-      <form action="https://api.web3forms.com/submit" method="POST" id="leadForm">
-        <input type="hidden" name="access_key" value="2ef85fd6-ce99-46e9-a1bb-6cdbf3052177">
-        <input type="hidden" name="subject" value="New Dental Lead for 7-Day Trial!">
-        <input type="hidden" name="from_name" value="Dental Concierge AI">
-
+      <form id="leadForm">
         <div class="form-group">
           <label for="doctorName">Doctor or Contact Name</label>
           <input type="text" id="doctorName" name="Doctor_Name" placeholder="Dr. John Smith" required>
@@ -364,7 +360,7 @@
           <input type="email" id="email" name="Contact_Email" placeholder="drsmith@smithdental.com" required>
         </div>
 
-        <button type="submit" class="submit-btn">Activate Sarah for My Clinic 🚀</button>
+        <button type="submit" class="submit-btn" id="submitBtn">Activate Sarah for My Clinic 🚀</button>
       </form>
     </div>
   </div>
@@ -382,6 +378,7 @@
 
   <script>
     const webhookUrl = 'https://hook.us2.make.com/q9cordqhxb7z2swqq7u3a8kbpe80ecvu';
+    const makeWebhookUrl = 'https://hook.us2.make.com/eoayx3e472b1d7pgbt6i1lh81aphc64t';
 
     async function sendMessage() {
       const input = document.getElementById('userInput');
@@ -468,7 +465,7 @@
     }
 
     /* ----------------------------------------------------
-       VALIDACIONES VISUALES EN TIEMPO REAL (Borde Rojo)
+       VALIDACIONES VISUALES Y ENVÍO A MAKE + META PIXEL
     ---------------------------------------------------- */
     const emailInput = document.getElementById('email');
     const phoneInput = document.getElementById('phone');
@@ -476,15 +473,14 @@
 
     function applyValidationStyle(inputElement, isValid) {
       if (isValid) {
-        inputElement.style.borderColor = '#22c55e'; // Verde tenue si es correcto
+        inputElement.style.borderColor = '#22c55e';
         inputElement.style.backgroundColor = '#f0fdf4';
       } else {
-        inputElement.style.borderColor = '#ef4444'; // Rojo si es incorrecto
+        inputElement.style.borderColor = '#ef4444';
         inputElement.style.backgroundColor = '#fef2f2';
       }
     }
 
-    // Validar Email al salir de la casilla (blur)
     emailInput.addEventListener('blur', function() {
       const val = this.value.trim();
       if (val.length > 0) {
@@ -495,7 +491,6 @@
       }
     });
 
-    // Validar Teléfono al salir de la casilla (blur)
     phoneInput.addEventListener('blur', function() {
       const phoneDigits = this.value.trim().replace(/\D/g, '');
       if (this.value.trim().length > 0) {
@@ -506,31 +501,63 @@
       }
     });
 
-    // Validar al enviar el formulario completo
-    document.getElementById('leadForm').addEventListener('submit', function(e) {
-      const isEmailValid = emailRegex.test(emailInput.value.trim());
-      const phoneDigits = phoneInput.value.trim().replace(/\D/g, '');
+    // Envío del Formulario
+    document.getElementById('leadForm').addEventListener('submit', async function(e) {
+      e.preventDefault();
+
+      const doctorName = document.getElementById('doctorName').value.trim();
+      const practiceWebsite = document.getElementById('practiceWebsite').value.trim();
+      const phone = phoneInput.value.trim();
+      const email = emailInput.value.trim();
+
+      const isEmailValid = emailRegex.test(email);
+      const phoneDigits = phone.replace(/\D/g, '');
       const isPhoneValid = phoneDigits.length >= 10;
 
       if (!isEmailValid) {
-        e.preventDefault();
         applyValidationStyle(emailInput, false);
-        alert('Please enter a valid work email address (e.g., doctor@clinic.com).');
+        alert('Please enter a valid work email address.');
         emailInput.focus();
-        return false;
+        return;
       }
 
       if (!isPhoneValid) {
-        e.preventDefault();
         applyValidationStyle(phoneInput, false);
-        alert('Please enter a valid phone or WhatsApp number with at least 10 digits.');
+        alert('Please enter a valid phone number with at least 10 digits.');
         phoneInput.focus();
-        return false;
+        return;
       }
 
-      // Registrar Lead en Meta Pixel si pasa las validaciones
-      if (typeof fbq !== 'undefined') {
-        fbq('track', 'Lead');
+      const submitBtn = document.getElementById('submitBtn');
+      submitBtn.innerText = 'Submitting...';
+      submitBtn.disabled = true;
+
+      try {
+        // Enviar datos al Webhook de Make
+        await fetch(makeWebhookUrl, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            Doctor_Name: doctorName,
+            Practice_Website: practiceWebsite,
+            Contact_Phone: phone,
+            Contact_Email: email
+          })
+        });
+
+        // Evento de Conversión en Meta
+        if (typeof fbq !== 'undefined') {
+          fbq('track', 'Lead');
+        }
+
+        alert('Thank you! Your trial request has been received. Please check your email for the next steps.');
+        closeModal();
+        document.getElementById('leadForm').reset();
+      } catch (error) {
+        alert('There was an issue submitting your request. Please try again.');
+      } finally {
+        submitBtn.innerText = 'Activate Sarah for My Clinic 🚀';
+        submitBtn.disabled = false;
       }
     });
   </script>
