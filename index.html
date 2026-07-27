@@ -468,8 +468,32 @@
       }
     }
 
-    /* Track Meta Lead Event on Form Submission */
-    document.getElementById('leadForm').addEventListener('submit', function() {
+    /* Validaciones estrictas del formulario y evento de Meta */
+    document.getElementById('leadForm').addEventListener('submit', function(e) {
+      const phoneInput = document.getElementById('phone').value.trim();
+      const emailInput = document.getElementById('email').value.trim();
+
+      // Expresión regular para verificar email válido
+      const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+      
+      // Contar solo los dígitos del número telefónico
+      const phoneDigits = phoneInput.replace(/\D/g, '');
+
+      // 1. Validar Email
+      if (!emailRegex.test(emailInput)) {
+        e.preventDefault();
+        alert('Please enter a valid work email address (e.g., doctor@clinic.com).');
+        return false;
+      }
+
+      // 2. Validar Teléfono (Mínimo 10 dígitos para EE. UU./Internacional)
+      if (phoneDigits.length < 10) {
+        e.preventDefault();
+        alert('Please enter a valid phone or WhatsApp number with at least 10 digits.');
+        return false;
+      }
+
+      // Si todo está correcto, rastrear la conversión de Lead en Meta Pixel
       if (typeof fbq !== 'undefined') {
         fbq('track', 'Lead');
       }
