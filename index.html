@@ -5,6 +5,14 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Dental Concierge AI - Your Virtual Front Desk Partner</title>
 
+  <!-- FAVICON -->
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🦷</text></svg>">
+
+  <!-- Open Graph Meta Tags (For WhatsApp / Social Previews) -->
+  <meta property="og:title" content="Dental Concierge AI | 24/7 Virtual Receptionist">
+  <meta property="og:description" content="Sarah greets prospective patients 24/7, answers questions about procedures, and books appointments directly into Google Calendar.">
+  <meta property="og:type" content="website">
+
   <!-- Meta Pixel Code -->
   <script>
   !function(f,b,e,v,n,t,s)
@@ -27,10 +35,13 @@
     * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', -apple-system, BlinkMacSystemFont, Roboto, sans-serif; }
     body { background-color: #f8fafc; color: #1e293b; line-height: 1.6; }
 
-    /* Header */
-    header { background: #ffffff; border-bottom: 1px solid #e2e8f0; padding: 18px 5%; display: flex; justify-content: space-between; align-items: center; position: sticky; top: 0; z-index: 100; }
-    .brand { font-size: 20px; font-weight: 700; color: #0f172a; display: flex; align-items: center; gap: 10px; }
-    .brand-tag { background: #e0f2fe; color: #0369a1; font-size: 11px; padding: 3px 8px; border-radius: 6px; font-weight: 600; }
+    /* Header & Logo */
+    header { background: #ffffff; border-bottom: 1px solid #e2e8f0; padding: 16px 5%; display: flex; justify-content: space-between; align-items: center; position: sticky; top: 0; z-index: 100; }
+    .brand-logo { display: flex; align-items: center; gap: 10px; text-decoration: none; cursor: pointer; }
+    .logo-icon { width: 38px; height: 38px; background: #0d9488; border-radius: 10px; display: flex; align-items: center; justify-content: center; color: white; font-size: 20px; box-shadow: 0 4px 10px rgba(13, 148, 136, 0.25); }
+    .logo-text { font-size: 20px; font-weight: 800; color: #0f172a; letter-spacing: -0.5px; }
+    .logo-text span { color: #0d9488; }
+    .brand-tag { background: #e0f2fe; color: #0369a1; font-size: 11px; padding: 3px 8px; border-radius: 6px; font-weight: 600; margin-left: 6px; vertical-align: middle; }
     .contact-link { text-decoration: none; color: #0d9488; font-weight: 600; font-size: 15px; cursor: pointer; transition: color 0.2s; }
     .contact-link:hover { color: #0f766e; }
 
@@ -165,7 +176,10 @@
 <body>
 
   <header>
-    <div class="brand">DentalConcierge <span class="brand-tag">AI Partner</span></div>
+    <div class="brand-logo" onclick="window.scrollTo({top: 0, behavior: 'smooth'});">
+      <div class="logo-icon">🦷</div>
+      <div class="logo-text">DentalConcierge <span>AI</span> <span class="brand-tag">Partner</span></div>
+    </div>
     <a onclick="openModal()" class="contact-link">Get Free Setup →</a>
   </header>
 
@@ -420,7 +434,7 @@
 
         <div class="form-group">
           <label for="phone">WhatsApp / Phone Number</label>
-          <input type="tel" id="phone" name="Contact_Phone" placeholder="+1 (555) 000-0000" required>
+          <input type="tel" id="phone" name="Contact_Phone" placeholder="+1 (555) 123-4567" required>
         </div>
 
         <div class="form-group">
@@ -531,6 +545,13 @@
         closeModal();
       }
     }
+
+    // Close Modal on Escape key
+    window.addEventListener('keydown', function(event) {
+      if (event.key === 'Escape') {
+        closeModal();
+      }
+    });
 
     /* ----------------------------------------------------
        VALIDACIONES VISUALES Y ENVÍO A MAKE + META PIXEL
