@@ -37,6 +37,7 @@
     /* Hero Section */
     .hero { max-width: 1100px; margin: 40px auto; padding: 0 20px; display: grid; grid-template-columns: 1fr 1fr; gap: 40px; align-items: center; }
     .hero-text h1 { font-size: 36px; color: #0f172a; line-height: 1.25; margin-bottom: 16px; font-weight: 800; }
+    .hero-text h1 span { color: #0d9488; }
     .hero-text p { font-size: 16px; color: #475569; margin-bottom: 24px; }
     
     .instruction-box { background: #f1f5f9; padding: 16px; border-radius: 12px; border-left: 4px solid #0d9488; margin-bottom: 20px; }
@@ -97,6 +98,19 @@
     th { padding: 18px 20px; font-size: 15px; }
     td { padding: 16px 20px; }
 
+    /* PRICING SECTION */
+    .pricing-section { background-color: #f8fafc; padding: 80px 20px; border-top: 1px solid #e2e8f0; border-bottom: 1px solid #e2e8f0; }
+    .pricing-card { max-width: 650px; margin: 0 auto; background: #ffffff; border: 2px solid #0d9488; border-radius: 24px; padding: 45px 35px; box-shadow: 0 15px 35px rgba(0,0,0,0.06); text-align: center; position: relative; }
+    .popular-tag { background-color: #0d9488; color: #ffffff; padding: 6px 18px; border-radius: 20px; font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; position: absolute; top: -15px; left: 50%; transform: translateX(-50%); }
+    .price-number { font-size: 52px; font-weight: 800; color: #0f172a; }
+    .micro-cost { margin-top: 8px; font-size: 15px; color: #0d9488; font-weight: 700; }
+    .comparison-box { background-color: #f1f5f9; border-radius: 12px; padding: 18px; margin: 25px 0; text-align: left; font-size: 14px; color: #334155; }
+    .comparison-row { display: flex; justify-content: space-between; margin-bottom: 8px; }
+    .comparison-row.highlight { font-weight: 700; color: #0d9488; border-top: 1px solid #cbd5e1; padding-top: 8px; margin-bottom: 0; }
+    .benefit-list { text-align: left; list-style: none; margin-bottom: 35px; }
+    .benefit-list li { margin-bottom: 12px; font-size: 15px; color: #334155; display: flex; align-items: center; gap: 10px; }
+    .benefit-list li span { color: #0d9488; font-weight: 800; }
+
     /* FAQ Section */
     .faq-section { max-width: 800px; margin: 60px auto; padding: 0 20px; }
     .faq-item { background: white; border: 1px solid #e2e8f0; border-radius: 12px; margin-bottom: 12px; overflow: hidden; }
@@ -143,6 +157,8 @@
       table { font-size: 12px; }
       th, td { padding: 10px; }
       .compliance-box { flex-direction: column; text-align: center; }
+      .pricing-card { padding: 30px 20px; }
+      .price-number { font-size: 42px; }
     }
   </style>
 </head>
@@ -157,7 +173,7 @@
   <section class="hero" id="demo">
     <div class="hero-text">
       <h1>An Extra Front Desk Assistant for Your Dental Practice</h1>
-      <p>Sarah greets prospective patients 24/7, answers questions about procedures, and helps them book appointments directly into Google Calendar when your office is closed or busy.</p>
+      <p>Sarah greets prospective patients 24/7, answers questions about procedures, and helps them book appointments directly into Google Calendar on your <strong>Website or WhatsApp Business</strong> when your office is closed or busy.</p>
       
       <div class="instruction-box">
         <p>
@@ -166,7 +182,7 @@
       </div>
 
       <div class="trust-badges">
-        <div class="trust-badge-item">No technical skills needed</div>
+        <div class="trust-badge-item">Website & WhatsApp Ready</div>
         <div class="trust-badge-item">Google Calendar Sync</div>
         <div class="trust-badge-item">HIPAA Compliant</div>
         <div class="trust-badge-item">7-day risk-free trial</div>
@@ -218,8 +234,8 @@
       <div class="steps-grid">
         <div class="step-card">
           <div class="step-number">1</div>
-          <h3>A Patient Visits Your Site</h3>
-          <p>Whether it's 9:00 PM or during lunch break, Sarah welcomes visitors instantly on your website or WhatsApp.</p>
+          <h3>A Patient Visits Your Site or WhatsApp</h3>
+          <p>Whether it's 9:00 PM or during lunch break, Sarah welcomes visitors instantly on your website or WhatsApp Business.</p>
         </div>
 
         <div class="step-card">
@@ -279,6 +295,58 @@
           </tr>
         </tbody>
       </table>
+    </div>
+  </section>
+
+  <!-- PRICING SECTION -->
+  <section class="pricing-section">
+    <div class="container">
+      <h2 class="section-title">Simple, Transparent Pricing</h2>
+      <p class="section-subtitle">No setup fees. No long-term contracts. Cancel anytime.</p>
+
+      <div class="pricing-card">
+        <span class="popular-tag">Most Popular Plan</span>
+
+        <h3 style="font-size: 24px; color: #0f172a; margin-top: 10px;">Clinic Growth Plan</h3>
+        <p style="color: #64748b; font-size: 15px;">Full 24/7 AI Receptionist for Website & WhatsApp</p>
+
+        <div style="margin: 25px 0;">
+          <span class="price-number">$347</span>
+          <span style="font-size: 18px; color: #64748b;"> / month</span>
+          
+          <div class="micro-cost">
+            That's just $11.56/day — Less than $0.48/hour for 24/7 coverage!
+          </div>
+        </div>
+
+        <!-- COMPARATIVE BOX -->
+        <div class="comparison-box">
+          <div class="comparison-row">
+            <span>☕ <strong>2 Starbucks Coffees/day:</strong></span>
+            <span>~$13.00/day</span>
+          </div>
+          <div class="comparison-row">
+            <span>👤 <strong>Human Front Desk (Working Hours Only):</strong></span>
+            <span>~$160.00/day ($20/hr)</span>
+          </div>
+          <div class="comparison-row highlight">
+            <span>🤖 <strong>Sarah (24/7 Instant Booking AI):</strong></span>
+            <span>$11.56/day ($0.48/hr)</span>
+          </div>
+        </div>
+
+        <ul class="benefit-list">
+          <li><span>✓</span> <strong>7-Day Risk-Free Trial</strong> ($0 due today)</li>
+          <li><span>✓</span> <strong>100% Free Setup & Integration</strong> (No onboarding fees)</li>
+          <li><span>✓</span> <strong>Website & WhatsApp Business Ready</strong></li>
+          <li><span>✓</span> <strong>Real-time Google Calendar Sync</strong></li>
+          <li><span>✓</span> <strong>Custom Trained</strong> on your exact fees, insurance & hours</li>
+          <li><span>✓</span> <strong>Unlimited 24/7 AI Conversations</strong></li>
+        </ul>
+
+        <button class="cta-button" style="width: 100%; border-radius: 12px; font-size: 18px;" onclick="openModal()">Start Your 7-Day Free Trial</button>
+        <p style="font-size: 13px; color: #94a3b8; margin-top: 12px;">🔒 No credit card required • Cancel anytime</p>
+      </div>
     </div>
   </section>
 
