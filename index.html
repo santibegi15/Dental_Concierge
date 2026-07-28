@@ -5,15 +5,12 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Dental Concierge AI - Your Virtual Front Desk Partner</title>
 
-  <!-- FAVICON -->
   <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🦷</text></svg>">
 
-  <!-- Open Graph Meta Tags (For WhatsApp / Social Previews) -->
   <meta property="og:title" content="Dental Concierge AI | 24/7 Virtual Receptionist">
   <meta property="og:description" content="Sarah greets prospective patients 24/7, answers questions about procedures, and books appointments directly into Google Calendar.">
   <meta property="og:type" content="website">
 
-  <!-- Meta Pixel Code -->
   <script>
   !function(f,b,e,v,n,t,s)
   {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
@@ -29,8 +26,6 @@
   <noscript><img height="1" width="1" style="display:none"
   src="https://www.facebook.com/tr?id=971478189283933&ev=PageView&noscript=1"
   /></noscript>
-  <!-- End Meta Pixel Code -->
-
   <style>
     * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', -apple-system, BlinkMacSystemFont, Roboto, sans-serif; }
     body { background-color: #f8fafc; color: #1e293b; line-height: 1.6; }
@@ -183,7 +178,6 @@
     <a onclick="openModal()" class="contact-link">Get Free Setup →</a>
   </header>
 
-  <!-- Hero Section -->
   <section class="hero" id="demo">
     <div class="hero-text">
       <h1>An Extra Front Desk Assistant for Your Dental Practice</h1>
@@ -203,7 +197,6 @@
       </div>
     </div>
 
-    <!-- Live Chat Widget -->
     <div class="chat-card">
       <div class="chat-header">
         <div class="avatar">
@@ -225,7 +218,6 @@
         </div>
       </div>
 
-      <!-- Quick Reply Chips -->
       <div class="chips-container">
         <div class="chip" onclick="sendQuickMessage('How much is Invisalign?')">💰 Invisalign Pricing?</div>
         <div class="chip" onclick="sendQuickMessage('What are your opening hours?')">🕒 Opening Hours</div>
@@ -239,7 +231,6 @@
     </div>
   </section>
 
-  <!-- How it works -->
   <section class="how-it-works">
     <div class="container">
       <h2 class="section-title">How Sarah Helps Your Practice Daily</h2>
@@ -267,7 +258,6 @@
     </div>
   </section>
 
-  <!-- TABLA COMPARATIVA -->
   <section class="comparison-section">
     <h2 class="section-title">Why Practices Choose Us Over Traditional Software</h2>
     <p class="section-subtitle">We don't sell generic chatbots. We build dedicated AI concierges custom-trained for your practice.</p>
@@ -312,7 +302,6 @@
     </div>
   </section>
 
-  <!-- PRICING SECTION -->
   <section class="pricing-section">
     <div class="container">
       <h2 class="section-title">Simple, Transparent Pricing</h2>
@@ -333,7 +322,6 @@
           </div>
         </div>
 
-        <!-- COMPARATIVE BOX -->
         <div class="comparison-box">
           <div class="comparison-row">
             <span>☕ <strong>2 Starbucks Coffees/day:</strong></span>
@@ -364,7 +352,6 @@
     </div>
   </section>
 
-  <!-- Compliance Banner -->
   <div class="compliance-box">
     <div class="compliance-icon">🔒</div>
     <div class="compliance-text">
@@ -373,7 +360,6 @@
     </div>
   </div>
 
-  <!-- FAQ Section -->
   <section class="faq-section">
     <h2 class="section-title" style="text-align: center; margin-bottom: 30px;">Frequently Asked Questions</h2>
     
@@ -405,14 +391,12 @@
     </div>
   </section>
 
-  <!-- Offer Box -->
   <div class="offer-box">
     <h2>Test Sarah in Your Practice for 7 Days</h2>
     <p>We will set up Sarah with your practice's exact details and Google Calendar integration. If you don't capture new patient inquiries in your first week, you owe us nothing.</p>
     <button class="cta-button" onclick="openModal()">Request Your 7-Day Free Setup</button>
   </div>
 
-  <!-- MODAL FORM POPUP -->
   <div class="modal-overlay" id="setupModal">
     <div class="modal-card">
       <button class="close-modal" onclick="closeModal()">✕</button>
@@ -428,8 +412,8 @@
         </div>
 
         <div class="form-group">
-          <label for="practiceWebsite">Practice Website URL</label>
-          <input type="url" id="practiceWebsite" name="Practice_Website" placeholder="https://www.smithdental.com" required>
+          <label for="practiceWebsite">Practice Website URL (Optional)</label>
+          <input type="url" id="practiceWebsite" name="Practice_Website" placeholder="https://www.smithdental.com">
         </div>
 
         <div class="form-group">
@@ -595,7 +579,8 @@
       e.preventDefault();
 
       const doctorName = document.getElementById('doctorName').value.trim();
-      const practiceWebsite = document.getElementById('practiceWebsite').value.trim();
+      const practiceWebsiteRaw = document.getElementById('practiceWebsite').value.trim();
+      const practiceWebsite = practiceWebsiteRaw.length > 0 ? practiceWebsiteRaw : 'N/A';
       const phone = phoneInput.value.trim();
       const email = emailInput.value.trim();
 
