@@ -104,13 +104,16 @@
     th { padding: 18px 20px; font-size: 15px; }
     td { padding: 16px 20px; }
 
-    /* TESTIMONIALS SECTION */
+    /* TESTIMONIALS SECTION WITH AVATARS */
     .testimonials-section { background-color: #ffffff; padding: 60px 20px; border-top: 1px solid #e2e8f0; border-bottom: 1px solid #e2e8f0; }
     .testimonials-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 24px; margin-top: 30px; text-align: left; }
     .testimonial-card { background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 16px; padding: 24px; display: flex; flex-direction: column; justify-content: space-between; }
     .testimonial-stars { color: #f59e0b; font-size: 16px; margin-bottom: 12px; }
     .testimonial-text { font-size: 14px; color: #334155; margin-bottom: 20px; font-style: italic; }
-    .testimonial-author h4 { font-size: 15px; color: #0f172a; font-weight: 700; }
+    
+    .testimonial-author { display: flex; align-items: center; gap: 14px; margin-top: 15px; border-top: 1px solid #e2e8f0; padding-top: 15px; }
+    .author-avatar { width: 48px; height: 48px; border-radius: 50%; object-fit: cover; border: 2px solid #0d9488; }
+    .testimonial-author h4 { font-size: 14px; color: #0f172a; font-weight: 700; }
     .testimonial-author p { font-size: 12px; color: #64748b; }
 
     /* PRICING SECTION */
@@ -323,8 +326,11 @@
             <p class="testimonial-text">"We used to miss 4-5 patient inquiries every single night. Within the first week of setting up Sarah, we booked 3 new Invisalign consultations while our office was closed."</p>
           </div>
           <div class="testimonial-author">
-            <h4>Dr. Michael Vance</h4>
-            <p>Vance Dental Care • Miami, FL</p>
+            <img src="https://images.unsplash.com/photo-1622253692010-333f2da6031d?auto=format&fit=crop&w=150&q=80" alt="Dr. Michael Vance" class="author-avatar">
+            <div>
+              <h4>Dr. Michael Vance</h4>
+              <p>Vance Dental Care • Miami, FL</p>
+            </div>
           </div>
         </div>
 
@@ -334,8 +340,11 @@
             <p class="testimonial-text">"The Google Calendar sync is flawless. Our front desk staff doesn't have to chase leads or answer repetitive pricing questions on WhatsApp anymore. Huge time saver."</p>
           </div>
           <div class="testimonial-author">
-            <h4>Sarah Jenkins, Office Manager</h4>
-            <p>Smile Studio Group • Austin, TX</p>
+            <img src="https://images.unsplash.com/photo-1594824813575-b44e7c3e583c?auto=format&fit=crop&w=150&q=80" alt="Sarah Jenkins" class="author-avatar">
+            <div>
+              <h4>Sarah Jenkins</h4>
+              <p>Smile Studio Group • Austin, TX</p>
+            </div>
           </div>
         </div>
 
@@ -345,8 +354,11 @@
             <p class="testimonial-text">"Setup took less than 24 hours and we didn't have to pay any upfront fees. The 7-day trial convinced us immediately. Highly recommended for any dentist."</p>
           </div>
           <div class="testimonial-author">
-            <h4>Dr. Robert Chen</h4>
-            <p>Chen Family Dentistry • Seattle, WA</p>
+            <img src="https://images.unsplash.com/photo-1537368910025-700350fe46c7?auto=format&fit=crop&w=150&q=80" alt="Dr. Robert Chen" class="author-avatar">
+            <div>
+              <h4>Dr. Robert Chen</h4>
+              <p>Chen Family Dentistry • Seattle, WA</p>
+            </div>
           </div>
         </div>
       </div>
