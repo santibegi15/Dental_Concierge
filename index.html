@@ -46,8 +46,8 @@
     .hero-text h1 span { color: #0d9488; }
     .hero-text p { font-size: 16px; color: #475569; margin-bottom: 24px; }
     
-    .instruction-box { background: #f1f5f9; padding: 16px; border-radius: 12px; border-left: 4px solid #0d9488; margin-bottom: 20px; }
-    .instruction-box p { font-size: 13px; color: #334155; margin: 0; }
+    .instruction-box { background: #f0fdf4; border: 1px solid #bbf7d0; padding: 16px; border-radius: 12px; border-left: 4px solid #0d9488; margin-bottom: 20px; }
+    .instruction-box p { font-size: 13px; color: #166534; margin: 0; }
 
     .trust-badges { display: flex; flex-wrap: wrap; gap: 16px; margin-top: 20px; font-size: 13px; color: #64748b; }
     .trust-badge-item { display: flex; align-items: center; gap: 6px; }
@@ -197,7 +197,7 @@
       
       <div class="instruction-box">
         <p>
-          <strong>👉 Try it yourself:</strong> Tap one of the quick suggestions below the chat or ask Sarah about Invisalign, pricing, or available appointments.
+          <strong>💬 Live Demo:</strong> Test the AI assistant right here. Ask about pricing, opening hours, or booking a consultation to see how it works on your clinic's website.
         </p>
       </div>
 
@@ -365,6 +365,45 @@
     </div>
   </section>
 
+  <div class="compliance-box">
+    <div class="compliance-icon">🔒</div>
+    <div class="compliance-text">
+      <h4>Privacy & Patient Security First</h4>
+      <p>Our infrastructure complies with HIPAA standards and data encryption protocols to safeguard patient information and practice records.</p>
+    </div>
+  </div>
+
+  <section class="faq-section">
+    <h2 class="section-title" style="text-align: center; margin-bottom: 30px;">Frequently Asked Questions</h2>
+    
+    <div class="faq-item">
+      <div class="faq-question" onclick="toggleFaq(this)">
+        How does Sarah integrate with our Google Calendar? <span>+</span>
+      </div>
+      <div class="faq-answer">
+        We connect Sarah via secure API integration (Make.com). When a patient requests an appointment slot, Sarah checks live calendar availability and places a temporary hold or confirmed entry instantly.
+      </div>
+    </div>
+
+    <div class="faq-item">
+      <div class="faq-question" onclick="toggleFaq(this)">
+        What happens if Sarah receives a complex clinical question? <span>+</span>
+      </div>
+      <div class="faq-answer">
+        Sarah is trained with strict guardrails. If a patient asks an unhandled clinical question or requests human intervention, Sarah politely collects their details and instantly notifies your reception team via email/WhatsApp.
+      </div>
+    </div>
+
+    <div class="faq-item">
+      <div class="faq-question" onclick="toggleFaq(this)">
+        Does it require technical installation on our website? <span>+</span>
+      </div>
+      <div class="faq-answer">
+        Not at all. We provide a single line of code that you (or your Webmaster) can paste onto your site. We handle 100% of the AI training and configuration.
+      </div>
+    </div>
+  </section>
+
   <section class="pricing-section">
     <div class="container">
       <h2 class="section-title">Simple, Transparent Pricing</h2>
@@ -411,45 +450,6 @@
 
         <button class="cta-button" style="width: 100%; border-radius: 12px; font-size: 18px;" onclick="openModal()">Start Your 7-Day Free Trial</button>
         <p style="font-size: 13px; color: #94a3b8; margin-top: 12px;">🔒 No credit card required • Cancel anytime</p>
-      </div>
-    </div>
-  </section>
-
-  <div class="compliance-box">
-    <div class="compliance-icon">🔒</div>
-    <div class="compliance-text">
-      <h4>Privacy & Patient Security First</h4>
-      <p>Our infrastructure complies with HIPAA standards and data encryption protocols to safeguard patient information and practice records.</p>
-    </div>
-  </div>
-
-  <section class="faq-section">
-    <h2 class="section-title" style="text-align: center; margin-bottom: 30px;">Frequently Asked Questions</h2>
-    
-    <div class="faq-item">
-      <div class="faq-question" onclick="toggleFaq(this)">
-        How does Sarah integrate with our Google Calendar? <span>+</span>
-      </div>
-      <div class="faq-answer">
-        We connect Sarah via secure API integration (Make.com). When a patient requests an appointment slot, Sarah checks live calendar availability and places a temporary hold or confirmed entry instantly.
-      </div>
-    </div>
-
-    <div class="faq-item">
-      <div class="faq-question" onclick="toggleFaq(this)">
-        What happens if Sarah receives a complex clinical question? <span>+</span>
-      </div>
-      <div class="faq-answer">
-        Sarah is trained with strict guardrails. If a patient asks an unhandled clinical question or requests human intervention, Sarah politely collects their details and instantly notifies your reception team via email/WhatsApp.
-      </div>
-    </div>
-
-    <div class="faq-item">
-      <div class="faq-question" onclick="toggleFaq(this)">
-        Does it require technical installation on our website? <span>+</span>
-      </div>
-      <div class="faq-answer">
-        Not at all. We provide a single line of code that you (or your Webmaster) can paste onto your site. We handle 100% of the AI training and configuration.
       </div>
     </div>
   </section>
